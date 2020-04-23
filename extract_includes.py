@@ -3,9 +3,8 @@ import sys
 import os
 import os.path
 
-used = set()
-
-INCLUDE_PATHS = ['/Users/alexeyd/ClionProjects/Olymp/spcppl']
+USED = set()
+INCLUDE_PATHS = None
 
 
 def include_target(file, path):
@@ -17,9 +16,9 @@ def include_target(file, path):
 
 
 def dfs(file):
-    if file in used:
+    if file in USED:
         return
-    used.add(file)
+    USED.add(file)
     with open(file, "r") as f:
         for line in f:
             if line.startswith("#include "):
@@ -33,6 +32,8 @@ def dfs(file):
 
 
 def main():
+    global INCLUDE_PATHS
+    INCLUDE_PATHS = sys.argv[:-1]
     dfs(sys.argv[1])
 
 
