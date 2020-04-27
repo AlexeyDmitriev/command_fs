@@ -179,8 +179,8 @@ static const struct fuse_operations command_fs_operations = {
 
 
 int main(int argc, char** argv) {
-  if (argc < 3) {
-    std::cerr << "Usage: command_fs mount_point root [include_path [include_path ... ]]";
+  if (argc < 4) {
+    std::cerr << "Usage: command_fs mount_point root command [arg1 [arg2 ... ]]";
     return 1;
   }
   umask(0);
@@ -190,8 +190,7 @@ int main(int argc, char** argv) {
       nullptr
   };
   root = argv[2];
-  command = {"/Users/alexeyd/CLionProjects/command_fs/extract_includes.py"};
-  command.insert(command.end(), argv + 3, argv + argc);
+  command.assign(argv + 3, argv + argc);
   return fuse_main(
       static_cast<int>(sizeof(args_to_fuse) / sizeof(args_to_fuse[0])) - 1,
       &args_to_fuse[0],
